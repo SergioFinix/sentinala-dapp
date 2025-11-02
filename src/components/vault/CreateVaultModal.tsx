@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { decodeEventLog } from 'viem';
 import { CONTRACT_ADDRESSES, STABLECOINS } from '@/lib/constants';
 
 // VaultFactory ABI - extract only the functions we need
@@ -30,6 +31,19 @@ const VAULT_FACTORY_ABI = [
     ],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  // Add event for VaultCreated
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "uint256", name: "vaultId", type: "uint256" },
+      { indexed: true, internalType: "address", name: "vaultAddress", type: "address" },
+      { indexed: true, internalType: "address", name: "owner", type: "address" },
+      { indexed: false, internalType: "address", name: "trader", type: "address" },
+      { indexed: false, internalType: "address", name: "stablecoin", type: "address" },
+    ],
+    name: "VaultCreated",
+    type: "event",
   },
 ] as const;
 
@@ -102,7 +116,7 @@ export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVault
 
   const { writeContract, data: hash, error: writeError, isPending, reset } = useWriteContract();
   
-  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+  const { isLoading: isConfirming, isSuccess: isConfirmed, data: receipt } = useWaitForTransactionReceipt({
     hash,
   });
 
@@ -154,7 +168,47 @@ export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVault
 
   // Handle successful transaction
   useEffect(() => {
-    if (isConfirmed && hash) {
+    if (isConfirmed && hash && receipt) {
+      try {
+        // Try to find and decode VaultCreated event from logs
+        const vaultCreatedEvent = receipt.logs?.find((log: any) => {
+          try {
+            const decoded = decodeEventLog({
+              abi: VAULT_FACTORY_ABI,
+              data: log.data,
+              topics: log.topics,
+            });
+            return decoded.eventName === 'VaultCreated';
+          } catch {
+            return false;
+          }
+        });
+
+        if (vaultCreatedEvent) {
+          const decoded = decodeEventLog({
+            abi: VAULT_FACTORY_ABI,
+            data: vaultCreatedEvent.data,
+            topics: vaultCreatedEvent.topics,
+          }) as any;
+          
+          const vaultAddress = decoded.args.vaultAddress;
+          const vaultId = decoded.args.vaultId;
+          
+          console.log('✅ Vault creado exitosamente!');
+          console.log('📍 Dirección del contrato Vault:', vaultAddress);
+          console.log('🔢 Vault ID:', vaultId.toString());
+          console.log('👤 Owner:', decoded.args.owner);
+          console.log('📊 Trader:', decoded.args.trader);
+          console.log('💰 Stablecoin:', decoded.args.stablecoin);
+        } else {
+          console.log('⚠️ No se pudo encontrar el evento VaultCreated en los logs');
+          console.log('Transaction hash:', hash);
+        }
+      } catch (error) {
+        console.error('Error al decodificar el evento:', error);
+        console.log('Transaction hash:', hash);
+      }
+
       // Call the callback to notify parent component
       onCreateVault(formData);
       
@@ -174,7 +228,7 @@ export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVault
       return () => clearTimeout(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfirmed, hash]);
+  }, [isConfirmed, hash, receipt]);
 
   // Handle errors
   useEffect(() => {
