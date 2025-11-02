@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { decodeEventLog } from 'viem';
+import Image from 'next/image';
 import { CONTRACT_ADDRESSES, STABLECOINS } from '@/lib/constants';
 
 // VaultFactory ABI - extract only the functions we need
@@ -102,9 +103,9 @@ const MOCK_STRATEGIES: Strategy[] = [
 
 // Stablecoins configuration from constants
 const STABLECOIN_CONFIG = [
-  { symbol: 'USDC' as const, icon: '💵', address: STABLECOINS.USDC },
-  { symbol: 'USDT' as const, icon: '💰', address: STABLECOINS.USDT },
-  { symbol: 'DAI' as const, icon: '💲', address: STABLECOINS.DAI },
+  { symbol: 'USDC' as const, image: '/usdc.webp', address: STABLECOINS.USDC },
+  { symbol: 'USDT' as const, image: '/usdt.webp', address: STABLECOINS.USDT },
+  { symbol: 'DAI' as const, image: '/s_dai.webp', address: STABLECOINS.DAI },
 ];
 
 export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVaultModalProps) {
@@ -310,7 +311,15 @@ export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVault
                           } ${!isConfigured ? 'opacity-50 cursor-not-allowed' : ''}`}
                           title={!isConfigured ? `${coin.symbol} address not configured` : ''}
                         >
-                          <div className="text-3xl mb-2">{coin.icon}</div>
+                          <div className="flex items-center justify-center mb-2">
+                            <Image
+                              src={coin.image}
+                              alt={coin.symbol}
+                              width={48}
+                              height={48}
+                              className="object-contain"
+                            />
+                          </div>
                           <div className="font-semibold text-gray-900">{coin.symbol}</div>
                           {!isConfigured && (
                             <div className="text-xs text-red-500 mt-1">Not configured</div>
