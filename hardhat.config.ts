@@ -22,10 +22,16 @@ const config: HardhatUserConfig = {
       chainId: 534351,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
+    scroll: {
+      url: process.env.SCROLL_MAINNET_URL || "https://rpc.scroll.io",
+      chainId: 534352,
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
   },
   etherscan: {
     apiKey: {
       scrollSepolia: process.env.SCROLLSCAN_API_KEY || "", // Puede ser vacío para Scroll Sepolia
+      scroll: process.env.SCROLLSCAN_API_KEY || "",
     },
     customChains: [
       {
@@ -34,6 +40,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://sepolia-blockscout.scroll.io/api",
           browserURL: "https://sepolia-blockscout.scroll.io"
+        }
+      },
+      {
+        network: "scroll",
+        chainId: 534352,
+        urls: {
+          apiURL: "https://api.scrollscan.com/api",
+          browserURL: "https://scrollscan.com"
         }
       }
     ]

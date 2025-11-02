@@ -85,7 +85,7 @@ export function DepositModal({ isOpen, onClose, vaultAddress, stablecoinAddress,
     }
 
     if (!balance || parseEther(amount) > balance) {
-      alert('Insufficient balancesss');
+      alert('Insufficient balancesss : '+balance);
       return;
     }
 

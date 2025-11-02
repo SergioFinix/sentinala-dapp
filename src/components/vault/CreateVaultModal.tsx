@@ -75,7 +75,7 @@ const MOCK_STRATEGIES: Strategy[] = [
     id: '1',
     name: '3 meses',
     apy: '2.5%',
-    trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
+    trader: '0x46EF7D55d30329c02FAcFA07498D279c0C20DD2D', // Replace with actual trader address
     duration: 90,
     fee: 50,
     riskLevel: 'Low',
@@ -84,7 +84,7 @@ const MOCK_STRATEGIES: Strategy[] = [
     id: '2',
     name: '6 meses',
     apy: '12.5%',
-    trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
+    trader: '0x46EF7D55d30329c02FAcFA07498D279c0C20DD2D', // Replace with actual trader address
     duration: 180,
     fee: 50,
     riskLevel: 'Medium',
@@ -93,7 +93,7 @@ const MOCK_STRATEGIES: Strategy[] = [
     id: '3',
     name: '12',
     apy: '18.2%',
-    trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
+    trader: '0x46EF7D55d30329c02FAcFA07498D279c0C20DD2D', // Replace with actual trader address
     duration: 360,
     fee: 50,
     riskLevel: 'High',
