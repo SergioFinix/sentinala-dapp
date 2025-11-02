@@ -1,4 +1,4 @@
-# Sentinala DApp - DeFi Trading Vaults Platform
+# Centilena DApp - DeFi Trading Vaults Platform
 
 A decentralized application (DApp) built on Scroll that allows users to deposit funds into vaults managed by professional traders.
 
@@ -23,7 +23,7 @@ A decentralized application (DApp) built on Scroll that allows users to deposit 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd sentinala-dapp
+cd Centilena-dapp
 ```
 
 2. Install dependencies:
@@ -96,7 +96,7 @@ npm start
 ## 🏗️ Architecture
 
 ```
-sentinala-dapp/
+Centilena-dapp/
 ├── contracts/           # Solidity smart contracts
 ├── scripts/            # Deployment scripts
 ├── test/               # Contract tests

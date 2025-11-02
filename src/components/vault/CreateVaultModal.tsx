@@ -59,29 +59,29 @@ export interface VaultFormData {
 const MOCK_STRATEGIES: Strategy[] = [
   {
     id: '1',
-    name: 'Conservative Growth',
-    apy: '8.5%',
+    name: '3 meses',
+    apy: '2.5%',
     trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
-    duration: 30,
-    fee: 15,
+    duration: 90,
+    fee: 50,
     riskLevel: 'Low',
   },
   {
     id: '2',
-    name: 'Balanced Portfolio',
+    name: '6 meses',
     apy: '12.5%',
     trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
-    duration: 30,
-    fee: 20,
+    duration: 180,
+    fee: 50,
     riskLevel: 'Medium',
   },
   {
     id: '3',
-    name: 'Aggressive Trading',
+    name: '12',
     apy: '18.2%',
     trader: '0xf76A0Af73Df734393ca2684f7e7BB9b446aa0010', // Replace with actual trader address
-    duration: 30,
-    fee: 25,
+    duration: 360,
+    fee: 50,
     riskLevel: 'High',
   },
 ];
@@ -301,7 +301,7 @@ export function CreateVaultModal({ isOpen, onClose, onCreateVault }: CreateVault
                 {/* Select Strategy */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Strategy
+                    Select Time Period
                   </label>
                   <select
                     value={formData.strategy.id}

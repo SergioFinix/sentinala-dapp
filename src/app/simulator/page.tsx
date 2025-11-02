@@ -49,7 +49,7 @@ export default function SimulatorPage() {
       value: investmentAmount * 1.08, // 8% APY
     },
     {
-      name: 'Sentinala Vault',
+      name: 'Centilena Vault',
       value: projections[projections.length - 1].value,
     },
   ];
